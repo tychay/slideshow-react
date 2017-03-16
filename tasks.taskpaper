@@ -1,0 +1,55 @@
+Coding test:
+	Pease build a slideshow in react
+		1. You can get a list of images from the https://unsplash.com API (they return images in batches of 10, but the slideshow should be able to paginate through).
+		2. You can use React (but please stay away from slideshow/carousel libraries)
+		3. There should be some kind of transition between slides (slide, blur, cross-fade, anything of your choosing).
+		4.There should be next/previous buttons. And if the user doesn't click next the slideshow should auto-advance after 10 seconds.
+	If you've not played with React in a while, https://github.com/facebookincubator/create-react-app is a pretty good place to start.
+	
+	Dev environment/ops:
+		get dev environment back up to speed
+		- reopen and update firefox and plugins @done(2017-03-16)
+		- get Babel syntax highlighting in Sublime @done(2017-03-16)
+			http://gunnariauvinen.com/getting-es6-syntax-highlighting-in-sublime-text/
+			- command pallette not working @done(2017-03-16)
+				https://forum.sublimetext.com/t/command-palette-shortcut-not-working-in-os-x/13182/5
+				https://github.com/atom/atom/issues/2591
+				It was BOTH Noizio and Voila (ARGH!)
+		- git and commit @done(2017-03-16)
+			- update Tower @done(2017-03-16)
+			- init git repository @done(2017-03-16)
+				git init .
+			- create new repo on Github @done(2017-03-16)
+				https://github.com/tychay/slideshow-react
+			- get keys working @done(2017-03-16)
+				ssh-add -K ~/.ssh/phpnet_rsa
+			- merge repos @done(2017-03-16)
+				git remote add origin git@github.com:tychay/slideshow-react.git
+				git remote -v
+				git fetch
+				git rebase origin/master
+			- add taskpaper list of things to do
+	
+	Quickstart:
+		get quickstart up and running
+		- install nodejs (6.10) and npm (3.10)on laptop @done(2017-03-16)
+			https://nodejs.org/en/
+			(install fails because: npm ERR! Error: No compatible version found: commander@'^2.9.0')
+		- start react app @done(2017-03-16)
+				https://github.com/facebookincubator/create-react-app
+				sudo npm install -g create-react-app
+				create-react-app hello-world
+				cd hello-world
+				npm start
+	Learn react:
+		- read overview of react
+				https://facebook.github.io/react/docs/installation.html
+		- run through a tutorial
+	
+	Write slideshow:
+		- get list of images from unsplash (pure javascript)
+		- make react show images
+		- make react have buttons: next/previous
+		- make javascript have a delay and auto advance
+		- find a way to do transitions (sliding)
+	Other refinements:
