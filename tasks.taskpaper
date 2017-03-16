@@ -1,5 +1,5 @@
 Coding test:
-	Pease build a slideshow in react
+	Please build a slideshow in react
 		1. You can get a list of images from the https://unsplash.com API (they return images in batches of 10, but the slideshow should be able to paginate through).
 		2. You can use React (but please stay away from slideshow/carousel libraries)
 		3. There should be some kind of transition between slides (slide, blur, cross-fade, anything of your choosing).
@@ -42,14 +42,38 @@ Coding test:
 				cd hello-world
 				npm start
 	Learn react:
-		- read overview of react
+		- read overview of react @done(2017-03-16)
 				https://facebook.github.io/react/docs/installation.html
-		- run through a tutorial
+				package manager (yarn or npm)
+					- read yarn docs
+				bundler (webpack or Browserfy)
+					used to take multiple files into a single one [not needed for the test which will be a single file]
+				compiler (Babel)
+					allows you to write in jsx or es6 and then compile for compatibility
+					[looks like this piece is handled by the create-react-app stuff]
+				running react in client applications
+		- run through a tutorial @done(2017-03-16)
+			https://www.youtube.com/watch?v=-AbaV3nrw6E&list=PL6gx4Cwl9DGBuKtLgPR_zWYnrwv-JllpA
+			looks like index.js, not App.js has the basic stuff (includes App.js React component to render method)
+			- 1. getting started @done(2017-03-16)
+			- 2. simple demo @done(2017-03-16)
+			- 3. components @done(2017-03-16)
+			- 4. rendering multiple components @done(2017-03-16)
+			- 5. props @done(2017-03-16)
+			- 6. event handling @done(2017-03-16)
+			- 7. state @done(2017-03-16)
+			- 8. adding state to components
+			- 9 refs
+			- 10. multiple child components
+			- 11. updating state and removing components
+			- 12. passing function as props
+			- 13. creating new components
 	
 	Write slideshow:
 		- get list of images from unsplash (pure javascript)
 		- make react show images
 		- make react have buttons: next/previous
 		- make javascript have a delay and auto advance
+			- reset timeout if the user clicks an action
 		- find a way to do transitions (sliding)
 	Other refinements:
