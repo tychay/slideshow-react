@@ -24,24 +24,6 @@ var Movie = React.createClass({
   }
 });
 
-var Comment = React.createClass({
-  edit: function() {
-    alert('Editing comment');
-  },
-  remove: function() {
-    alert('Remove comment');
-  },
-  render: function() {
-    return(
-      <div className="commentContainer">
-        <div className="commentText">{this.props.children}</div>
-        <button onClick={this.edit} className="button-primary">Edit</button>
-        <button onClick={this.remove} className="button-danger">Remove</button>
-      </div>
-    )
-  }
-});
-
 var CheckBox = React.createClass({
   getInitialState: function() {
     return {checked: true};
@@ -60,6 +42,46 @@ var CheckBox = React.createClass({
   }
 });
 
+var Comment = React.createClass({
+  getInitialState: function() {
+    return {editing: false}
+  },
+  edit: function() {
+    this.setState({editing: true});
+  },
+  remove: function() {
+    console.log('Remove comment');
+  },
+  save: function() {
+    var val = this.refs.newText.value;
+    console.log('New comment: '+val);
+    this.setState({editing: false});
+  },
+  renderNormal: function() {
+    return(
+      <div className="commentContainer">
+        <div className="commentText">{this.props.children}</div>
+        <button onClick={this.edit} className="button-primary">Edit</button>
+        <button onClick={this.remove} className="button-danger">Remove</button>
+      </div>
+    )
+  },
+  renderForm: function() {
+    return(
+      <div className="commentContainer">
+        <textarea ref="newText" defaultValue={this.props.children}></textarea>
+        <button onClick={this.save} className="button-success">Save</button>
+      </div>
+    )
+  },
+  render: function() {
+      if (this.state.editing) {
+        return this.renderForm();
+      } else {
+        return this.renderNormal();
+      }
+  }
+});
 
 class App extends Component {
   render() {
@@ -74,11 +96,6 @@ class App extends Component {
           <Comment>Beans</Comment>
           <Comment>Tuna</Comment>
         </div>
-        <p className="App-intro">
-          <Movie title="Avatar" genre="action" />
-          <Bacon />
-        </p>
-        <CheckBox />
       </div>
     );
   }

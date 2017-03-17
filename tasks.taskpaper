@@ -28,7 +28,7 @@ Coding test:
 				git remote -v
 				git fetch
 				git rebase origin/master
-			- add taskpaper list of things to do
+			- add taskpaper list of things to do @done(2017-03-16)
 	
 	Quickstart:
 		get quickstart up and running
@@ -62,8 +62,10 @@ Coding test:
 			- 5. props @done(2017-03-16)
 			- 6. event handling @done(2017-03-16)
 			- 7. state @done(2017-03-16)
-			- 8. adding state to components
-			- 9 refs
+			- 8. adding state to components @done(2017-03-16)
+				- add in css rules @done(2017-03-16)
+					https://github.com/buckyroberts/React-Boilerplate/blob/master/src/css/main.css
+			- 9 refs @done(2017-03-16)
 			- 10. multiple child components
 			- 11. updating state and removing components
 			- 12. passing function as props
