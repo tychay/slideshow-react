@@ -2,6 +2,55 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Unsplash, { toJson } from 'unsplash-js';
+
+// Code to extract query string from location
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+    urlParams = {};
+    while (match = search.exec(query))
+       urlParams[decode(match[1])] = decode(match[2]);
+})();
+console.log(urlParams);
+
+// Unsplash API and authentication
+const unsplash = new Unsplash({
+  applicationId: "49ddae58a10706ae5d04b1921eae16c8509bdb63b598f8ade086be2badff0f39",
+  secret: "d5b52970d5e1a921b244743ff24302b47de27c9113625a7d9f449a2079381afe",
+  callbackUrl: "http://localhost:3000/",
+});
+if (urlParams.code) {
+  unsplash.auth.userAuthentication(urlParams.code)
+    .then(toJson)
+    .then(json => {
+      unsplash.auth.setBearerToken(json.access_token);
+    });
+} else {
+  const unsplash = new Unsplash({
+    applicationId: "49ddae58a10706ae5d04b1921eae16c8509bdb63b598f8ade086be2badff0f39",
+    secret: "d5b52970d5e1a921b244743ff24302b47de27c9113625a7d9f449a2079381afe",
+    //callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
+    callbackUrl: "http://localhost:3000/"
+  });
+  const authenticationUrl = unsplash.auth.getAuthenticationUrl([
+    "public",
+  ]);
+  location.assign(authenticationUrl);
+}
+
+// Test API photos list
+unsplash.photos.listPhotos(0,10,'latest')
+  .then(toJson)
+  .then(json => {
+    console.log(json);
+  });
+
 var Comment = React.createClass({
   getInitialState: function() {
     return {editing: false}

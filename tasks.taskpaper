@@ -72,7 +72,36 @@ Coding test:
 			- 13. creating new components @done(2017-03-18)
 	
 	Write slideshow:
-		- get list of images from unsplash (pure javascript)
+		- get list of images from unsplash (pure javascript) @done(2017-03-18)
+			- obviously this is not in React, but look into how React does it @done(2017-03-18)
+				React people use:
+					Flux:
+						basically this is Facebook's implementation of a M(VM)C
+							actions = controller between view and API 
+							dispatcher = controller between actions and VM
+							store: view model that talks to React view
+						skip this for now as it is a whole architecture 
+						https://facebook.github.io/flux/docs/overview.html
+						https://scotch.io/tutorials/getting-to-know-flux-the-react-js-architecture
+					Redux:
+						http://redux.js.org/docs/basics/UsageWithReact.html
+						a simple VM container that is often used with React
+						this would only be needed if we need to store state on client side (cache API calls) which the problem spec doesn't require/suggest
+				- kick it oldskewl @done(2017-03-18)
+					Just install JQuery and make an Ajax call?
+					learn how to install nodes modules
+					- create account on Unsplash @done(2017-03-18)
+						https://unsplash.com
+					- get API key @done(2017-03-18)
+						AppID: 49ddae58a10706ae5d04b1921eae16c8509bdb63b598f8ade086be2badff0f39
+						secret:  d5b52970d5e1a921b244743ff24302b47de27c9113625a7d9f449a2079381afe
+						callback urls: urn:ietf:wg:oauth:2.0:oob
+					- install nodejs module @done(2017-03-18)
+						https://github.com/unsplash/unsplash-js
+						npm i --save unsplash-js
+					- debug API authorization @done(2017-03-18)
+						- deal with error toJson is not defined @done(2017-03-18)
+							https://github.com/unsplash/unsplash-js/issues/32
 		- make react show images
 		- make react have buttons: next/previous
 		- make javascript have a delay and auto advance
