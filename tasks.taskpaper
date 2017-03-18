@@ -102,9 +102,20 @@ Coding test:
 					- debug API authorization @done(2017-03-18)
 						- deal with error toJson is not defined @done(2017-03-18)
 							https://github.com/unsplash/unsplash-js/issues/32
-		- make react show images
-		- make react have buttons: next/previous
-		- make javascript have a delay and auto advance
-			- reset timeout if the user clicks an action
+		- make react show images @done(2017-03-18)
+			the only React piece I need is to call API on componentDidMount()
+			https://facebook.github.io/react/docs/react-component.html#componentdidmount
+		- install bootstrap to style @done(2017-03-18)
+		- make react have buttons: next/previous @done(2017-03-18)
+			since images don't do anything, there is no need to make them components
+			- add buttons @done(2017-03-18)
+			- make buttons react @done(2017-03-18)
+			- style buttons @done(2017-03-18)
+			- disable previous button on page zero
+		- make javascript have a delay and auto advance @done(2017-03-18)
+			- reset timeout if the user clicks an action @done(2017-03-18)
+			- debug timeout issues @done(2017-03-18)
 		- find a way to do transitions (sliding)
+		- re-enable API code and keep testing
+	
 	Other refinements:

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+//require('bootstrap');
 
 import Unsplash, { toJson } from 'unsplash-js';
 
@@ -17,8 +18,11 @@ var urlParams;
     while (match = search.exec(query))
        urlParams[decode(match[1])] = decode(match[2]);
 })();
-console.log(urlParams);
-
+// When mocking uncomment the line below and comment out the next part following
+// Timeout needs to be global
+var auto_advance_timer;
+const unsplash = {};
+/*
 // Unsplash API and authentication
 const unsplash = new Unsplash({
   applicationId: "49ddae58a10706ae5d04b1921eae16c8509bdb63b598f8ade086be2badff0f39",
@@ -32,104 +36,103 @@ if (urlParams.code) {
       unsplash.auth.setBearerToken(json.access_token);
     });
 } else {
-  const unsplash = new Unsplash({
-    applicationId: "49ddae58a10706ae5d04b1921eae16c8509bdb63b598f8ade086be2badff0f39",
-    secret: "d5b52970d5e1a921b244743ff24302b47de27c9113625a7d9f449a2079381afe",
-    //callbackUrl: "urn:ietf:wg:oauth:2.0:oob"
-    callbackUrl: "http://localhost:3000/"
-  });
   const authenticationUrl = unsplash.auth.getAuthenticationUrl([
     "public",
   ]);
   location.assign(authenticationUrl);
 }
+/* */
 
-// Test API photos list
-unsplash.photos.listPhotos(0,10,'latest')
-  .then(toJson)
-  .then(json => {
-    console.log(json);
-  });
-
-var Comment = React.createClass({
+var Slideshow = React.createClass({
   getInitialState: function() {
-    return {editing: false}
-  },
-  edit: function() {
-    this.setState({editing: true});
-  },
-  remove: function() {
-    this.props.deleteFromBoard(this.props.index);
-  },
-  save: function() {
-    this.props.updateCommentText(this.refs.newText.value, this.props.index);
-    this.setState({editing: false});
-  },
-  renderNormal: function() {
-    return(
-      <div className="commentContainer">
-        <div className="commentText">{this.props.children}</div>
-        <button onClick={this.edit} className="button-primary">Edit</button>
-        <button onClick={this.remove} className="button-danger">Remove</button>
-      </div>
-    )
-  },
-  renderForm: function() {
-    return(
-      <div className="commentContainer">
-        <textarea ref="newText" defaultValue={this.props.children}></textarea>
-        <button onClick={this.save} className="button-success">Save</button>
-      </div>
-    )
-  },
-  render: function() {
-      if (this.state.editing) {
-        return this.renderForm();
-      } else {
-        return this.renderNormal();
-      }
-  }
-});
-
-var Board = React.createClass({
-  getInitialState: function() {
+    var images = [];
     return {
-      comments: []
+      images: images,
+      page: this.init_page,
+      init_page: 0, //const like this should be moved to properties or statics?
+      per_page: 8,
+      timer: null,
     };
   },
-  add: function(text) {
-    var arr = this.state.comments;
-    arr.push(text);
-    this.setState({comments: arr});
+  componentDidMount: function() {
+    console.log('componentDidMount');
+    // queue in initial API call
+    this._getImages(this.state.init_page, false);
+    // 10 second timer before auto-page
+    this.startAutoAdvanceTimer();
   },
-  removeComment: function(i) {
-    console.log('Removing comment: '+i);
-    var arr = this.state.comments;
-    arr.splice(i,1);
-    this.setState({comments: arr});
+  _getImages: function(page_num, shouldClearTimer) {
+    // Clear any existing timeout, so it doesn't page immediately after paging
+    if (shouldClearTimer) {
+      window.clearTimeout(auto_advance_timer);
+      console.log('clearTimer: ' + Math.floor(Date.now() / 1000));
+    }
+
+    // Uncomment to mock unsplash API for when I'm rate limited
+    var unsplashdata = [];
+    for (var i=0; i<this.state.per_page; ++i) {
+      var unsplash_id = page_num*this.state.per_page + i;
+      unsplashdata.push({
+        id: unsplash_id,
+        urls: {
+          thumb: 'https://unsplash.it/300/300?image='+unsplash_id
+        },
+      });
+    }
+    this.setState({
+      images: unsplashdata,
+      page:   page_num
+    });
+    this.startAutoAdvanceTimer();
+    return;
+    //https://unsplash.com/documentation#list-photos
+    return unsplash.photos.listPhotos(page_num * this.per_page, this.per_page, 'latest')
+      .then(toJson)
+      .then(json => {
+        //console.log(json); //[].urls.thumb
+        this.setState({
+          images: json,
+          page:   page_num
+        });
+        this.startAutoAdvanceTimer();
+      });
   },
-  updateComment: function(newText, i) {
-    console.log('Updating comment: '+i);
-    var arr = this.state.comments;
-    arr[i] = newText;
-    this.setState({comments: arr});
-  },
-  eachComment: function(text, i) {
+  showImage: function(imageObj, i) {
     return(
-      <Comment key={i} index={i} updateCommentText={this.updateComment} deleteFromBoard={this.removeComment}>
-        {text}
-      </Comment>
+      <div className="col-md-3 col-sm-4 col-xs-6">
+        <img className="img-thumbnail" src={imageObj.urls.thumb} alt={imageObj.id} />
+      </div>
     );
   },
-
+  doPrev: function() {
+    this._getImages(--this.state.page, true);
+  },
+  doNext: function() {
+    this._getImages(++this.state.page, true);
+  },
+  autoAdvance: function() {
+    console.log('autoadvance: ' + Math.floor(Date.now() / 1000));
+    this._getImages(++this.state.page, false);
+  },
+  startAutoAdvanceTimer: function() {
+    if (auto_advance_timer) {
+      window.clearTimeout(auto_advance_timer);
+    }
+    console.log('startTimer: ' + Math.floor(Date.now() / 1000));
+    var self = this;
+    auto_advance_timer = window.setTimeout(function(){self.autoAdvance();}, 10000);
+  },
   render: function() {
     return (
-        <div>
-          <button onClick={this.add.bind(null, 'Default text')} className="button-info create">Add New</button>
-          <div className="board">
-            { this.state.comments.map(this.eachComment) }
-          </div>
+      <div>
+        <div className="row">
+            { this.state.images.map(this.showImage) }
         </div>
+        <div className="btn-group" role="group" aria-label="pagination">
+          <button type="button" onClick={this.doPrev} className="btn btn-default btn-lg">&laquo;</button>
+          <button type="button" onClick={this.doNext} className="btn btn-default btn-lg">&raquo;</button>
+        </div>
+      </div>
     );
   }
 });
@@ -140,9 +143,9 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>React Unsplash Slideshow</h2>
         </div>
-        <Board />
+        <Slideshow />
       </div>
     );
   }
