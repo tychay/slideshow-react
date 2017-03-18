@@ -29,6 +29,8 @@ Coding test:
 				git fetch
 				git rebase origin/master
 			- add taskpaper list of things to do @done(2017-03-16)
+		- install React dev tools in Firefox
+			https://facebook.github.io/react/blog/2015/09/02/new-react-developer-tools.html
 	
 	Quickstart:
 		get quickstart up and running
@@ -111,11 +113,18 @@ Coding test:
 			- add buttons @done(2017-03-18)
 			- make buttons react @done(2017-03-18)
 			- style buttons @done(2017-03-18)
-			- disable previous button on page zero
+			- disable previous button on page zero @done(2017-03-18)
 		- make javascript have a delay and auto advance @done(2017-03-18)
 			- reset timeout if the user clicks an action @done(2017-03-18)
 			- debug timeout issues @done(2017-03-18)
-		- find a way to do transitions (sliding)
-		- re-enable API code and keep testing
+		- find a way to do transitions (sliding) @done(2017-03-18)
+			DO NOT USE Bootstrap Carousel as this would be cheating (it has built in timers for javascript, etc.)
+			- look for a ReactJS version of ngAnimate @done(2017-03-18)
+				https://facebook.github.io/react/docs/animation.html
+		- re-enable API code and keep testing @done(2017-03-18)
 	
 	Other refinements:
+		- animation can be refined a bit
+			maybe put every thumbnail in a box that restricts size and dimensions
+			there is a brief blink before animation kicks in, that could use some work
+			the first load probably should have empty space allocated for it

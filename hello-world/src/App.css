@@ -22,3 +22,27 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* CSS React transitions for thumbnails */
+.thumb-enter {
+  display:none;
+  opacity: 0.01;
+}
+
+.thumb-enter.thumb-enter-active {
+  display:inline-block;
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.thumb-leave {
+  opacity: 1;
+}
+
+.thumb-leave.thumb-leave-active {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
