@@ -66,8 +66,8 @@ Coding test:
 				- add in css rules @done(2017-03-16)
 					https://github.com/buckyroberts/React-Boilerplate/blob/master/src/css/main.css
 			- 9 refs @done(2017-03-16)
-			- 10. multiple child components
-			- 11. updating state and removing components
+			- 10. multiple child components @done(2017-03-18)
+			- 11. updating state and removing components @done(2017-03-18)
 			- 12. passing function as props
 			- 13. creating new components
 	

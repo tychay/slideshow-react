@@ -83,6 +83,45 @@ var Comment = React.createClass({
   }
 });
 
+var Board = React.createClass({
+  getInitialState: function() {
+    return {
+      comments: [
+        'I like bacon',
+        'Want to get ice cream?',
+        'OK, we have enough comments now'
+      ]
+    };
+  },
+  removeComment: function(i) {
+    console.log('Removing comment: '+i);
+    var arr = this.state.comments;
+    arr.splice(i,1);
+    this.setState({comments: arr});
+  },
+  updateComment: function(newText, i) {
+    console.log('Updating comment: '+i);
+    var arr = this.state.comments;
+    arr[i] = newText;
+    this.setState({comments: arr});
+  },
+  eachComment: function(text, i) {
+    return(
+      <Comment key={i} index={i} updateCommentText={this.updateComment} deleteFromBoard={this.removeComment}>
+        {text}
+      </Comment>
+    );
+  },
+
+  render: function() {
+    return (
+        <div className="board">
+          { this.state.comments.map(this.eachComment) }
+        </div>
+    );
+  }
+});
+
 class App extends Component {
   render() {
     return (
@@ -91,11 +130,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-        <div className="board">
-          <Comment>Hey now</Comment>
-          <Comment>Beans</Comment>
-          <Comment>Tuna</Comment>
-        </div>
+        <Board />
       </div>
     );
   }
