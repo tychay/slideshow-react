@@ -2,46 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-var Bacon = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <h2>Bacon component!</h2> 
-        <p>This is a simple component!</p>
-      </div>
-    );
-  }
-});
-
-var Movie = React.createClass({
-  render: function() {
-    return(
-      <div>
-        <h1>{this.props.title}</h1>
-        <h2>{this.props.genre}</h2>
-      </div>
-    );
-  }
-});
-
-var CheckBox = React.createClass({
-  getInitialState: function() {
-    return {checked: true};
-  },
-  handleChecked: function() {
-    this.setState({checked: !this.state.checked});
-  },
-  render: function() {
-    var msg = (this.state.checked) ? 'checked' : 'unchecked';
-    return(
-      <div className="commentContainer">
-        <input type="checkbox" onChange={this.handleChecked} defaultChecked={this.state.checked} />
-        <h3>Checkbox is {msg}</h3>
-      </div>
-    )
-  }
-});
-
 var Comment = React.createClass({
   getInitialState: function() {
     return {editing: false}
@@ -50,11 +10,10 @@ var Comment = React.createClass({
     this.setState({editing: true});
   },
   remove: function() {
-    console.log('Remove comment');
+    this.props.deleteFromBoard(this.props.index);
   },
   save: function() {
-    var val = this.refs.newText.value;
-    console.log('New comment: '+val);
+    this.props.updateCommentText(this.refs.newText.value, this.props.index);
     this.setState({editing: false});
   },
   renderNormal: function() {
@@ -86,12 +45,13 @@ var Comment = React.createClass({
 var Board = React.createClass({
   getInitialState: function() {
     return {
-      comments: [
-        'I like bacon',
-        'Want to get ice cream?',
-        'OK, we have enough comments now'
-      ]
+      comments: []
     };
+  },
+  add: function(text) {
+    var arr = this.state.comments;
+    arr.push(text);
+    this.setState({comments: arr});
   },
   removeComment: function(i) {
     console.log('Removing comment: '+i);
@@ -115,8 +75,11 @@ var Board = React.createClass({
 
   render: function() {
     return (
-        <div className="board">
-          { this.state.comments.map(this.eachComment) }
+        <div>
+          <button onClick={this.add.bind(null, 'Default text')} className="button-info create">Add New</button>
+          <div className="board">
+            { this.state.comments.map(this.eachComment) }
+          </div>
         </div>
     );
   }
